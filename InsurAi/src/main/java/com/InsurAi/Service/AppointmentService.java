@@ -1,33 +1,76 @@
 package com.InsurAi.Service;
 
+import com.InsurAi.Dto.AppointmentRequest;
 import com.InsurAi.Entity.Appointment;
 import com.InsurAi.Repository.AppointmentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AppointmentService {
 
-    private final AppointmentRepository appointmentRepository;
+    @Autowired
+    private AppointmentRepository appointmentRepository;
 
-    public AppointmentService(AppointmentRepository appointmentRepository) {
-        this.appointmentRepository = appointmentRepository;
+    @Autowired
+    private NotificationService notificationService;
+
+    // Create Appointment
+    public Appointment createAppointment(AppointmentRequest request) {
+        Appointment appointment = new Appointment();
+        appointment.setAgentEmail(request.getAgentEmail());
+        appointment.setUserEmail(request.getUserEmail());
+        appointment.setServiceType(request.getServiceType());
+        appointment.setAppointmentDateTime(request.getPreferredDateTime());
+        appointment.setStatus(Appointment.Status.SCHEDULED);
+
+        Appointment saved = appointmentRepository.save(appointment);
+
+        // Notify agent
+        notificationService.sendNotification(
+            request.getAgentEmail(),
+            "New Appointment Scheduled",
+            "You have a new " + request.getServiceType() + " appointment with " + request.getUserName() +
+            " on " + request.getPreferredDateTime()
+        );
+
+        return saved;
     }
 
-    public Appointment save(Appointment appointment) {
-        return appointmentRepository.save(appointment);
+    // Cancel Appointment by User
+    public Appointment cancelByUser(Long appointmentId, String reason) {
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow();
+        appointment.setStatus(Appointment.Status.CANCELLED_BY_USER);
+        appointment.setCancellationReason(reason);
+        appointmentRepository.save(appointment);
+
+        // Notify agent automatically
+        notificationService.sendNotification(
+            appointment.getAgentEmail(),
+            "Appointment Cancelled by User",
+            "The user has cancelled the " + appointment.getServiceType() + " appointment." +
+            " Reason: " + reason
+        );
+
+        return appointment;
     }
 
-    public List<Appointment> findAll() {
-        return appointmentRepository.findAll();
-    }
+    
+    // Cancel Appointment by Agent
+    public Appointment cancelByAgent(Long appointmentId, String reason) {
+        Appointment appointment = appointmentRepository.findById(appointmentId).orElseThrow();
+        appointment.setStatus(Appointment.Status.CANCELLED_BY_AGENT);
+        appointment.setCancellationReason(reason);
+        appointmentRepository.save(appointment);
 
-    public List<Appointment> findByUserId(Long userId) {
-        return appointmentRepository.findByUserId(userId);
-    }
+        // Notify user automatically
+        notificationService.sendNotification(
+            appointment.getUserEmail(),
+            "Appointment Cancelled by Agent",
+            "Your " + appointment.getServiceType() + " appointment has been cancelled by the agent." +
+            " Reason: " + reason
+        );
 
-    public List<Appointment> findByAgentId(Long agentId) {
-        return appointmentRepository.findByAgentId(agentId);
+        return appointment;
     }
 }
