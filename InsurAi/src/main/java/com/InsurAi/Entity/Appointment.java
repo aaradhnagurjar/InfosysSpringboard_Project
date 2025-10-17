@@ -16,24 +16,22 @@ public class Appointment {
     // Auto-generates unique values for this field (auto-increment in MySQL)
     private Long id;
 
-    // Type of service booked (e.g., "Health Insurance", "Auto Insurance")
-    private String serviceType; 
+    
+    private String serviceType; // Type of service booked (e.g., "Health Insurance", "Auto Insurance")
 
-    // Email of the user who booked the appointment
-    private String userEmail;
+    private String userEmail;// Email of the user
 
-    // Email of the agent responsible for the appointment
-    private String agentEmail;
+    private String agentEmail;// Email of the agent
 
-    // Date and time of the scheduled appointment
-    private LocalDateTime appointmentDateTime;
+    private LocalDateTime appointmentDateTime; // Scheduled date & time
+    
+    
+    private LocalDateTime appointmentDateTime;// Date and time of the scheduled appointment
 
-    @Enumerated(EnumType.STRING) 
-    // Stores the enum value as a string in the database (e.g., "SCHEDULED")
-    private Status status; // Tracks the status of the appointment
+    @Enumerated(EnumType.STRING)  // Stores the enum value as a string in the database (e.g., "SCHEDULED")
+    private Status status; // Tracks the  appointment status
 
-    // Optional field to store the reason for cancellation (if any)
-    private String cancellationReason;
+    private String cancellationReason;  // Reason if canceled
 
     // Enum representing the possible states of an appointment
     public enum Status {
@@ -43,9 +41,8 @@ public class Appointment {
         COMPLETED            // Appointment has been completed successfully
     }
 
-    // ===========================
     // Getters and Setters
-    // ===========================
+ 
 
     public Long getId() { 
         return id; 
