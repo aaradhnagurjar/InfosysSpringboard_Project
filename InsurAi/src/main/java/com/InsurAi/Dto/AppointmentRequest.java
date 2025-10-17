@@ -1,10 +1,8 @@
 package com.InsurAi.Dto;
 
 import java.time.LocalDateTime;
-/**
- * DTO (Data Transfer Object) for creating or updating appointments.
- * This class is used to receive data from frontend requests.
- */
+// DTO (Data Transfer Object) for creating or updating appointments.
+ // This class is used to receive data from frontend requests.
 public class AppointmentRequest {
 
    
