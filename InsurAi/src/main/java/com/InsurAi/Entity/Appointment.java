@@ -1,60 +1,51 @@
 // This class defines the Appointment entity which represents an appointment record in the database.
 // It maps Java object fields to database table columns using JPA (Jakarta Persistence API) annotations.
 
-package com.InsurAi.Entity;
+package com.insurAi.entity;
 
-// Importing JPA annotations for entity mapping and LocalDateTime for date-time storage
+// Import JPA annotations and LocalDateTime class
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity  // Marks this class as a JPA Entity — it will be stored in the database as a table
-@Table(name = "appointments")  // Specifies the name of the table in the database
+@Entity // Marks this class as a JPA entity, meaning it maps to a database table
+@Table(name = "appointments") // Specifies the database table name as "appointments"
 public class Appointment {
 
-    // Primary Key 
-    @Id  // Specifies this field as the Primary Key of the table
-    @GeneratedValue(strategy = GenerationType.IDENTITY)  
-    // Auto-generates unique IDs for each appointment using the database's identity (auto-increment)
+    @Id // Marks this field as the primary key of the table
+    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    // Auto-generates unique values for this field (auto-increment in MySQL)
     private Long id;
 
-    // Agent Details 
-    @Column(name = "agent_id")  
-    // Maps this field to a column named 'agent_id' in the database
-    private Long agentId;
+    // Type of service booked (e.g., "Health Insurance", "Auto Insurance")
+    private String serviceType; 
 
-    @Column(name = "agent_name", nullable = false)
-    // Stores the agent's name; cannot be null because every appointment must have an assigned agent
-    private String agentName;
+    // Email of the user who booked the appointment
+    private String userEmail;
 
-    // Appointment Details 
-    @Column(name = "preferred_datetime", nullable = false)
-    // Stores the preferred date and time chosen for the appointment (cannot be null)
-    private LocalDateTime preferredDateTime;
+    // Email of the agent responsible for the appointment
+    private String agentEmail;
 
-    @Column(name = "reason", length = 1000)
-    // Stores the reason or purpose of the appointment (max 1000 characters)
-    private String reason;
+    // Date and time of the scheduled appointment
+    private LocalDateTime appointmentDateTime;
 
-    // User Details 
-    @Column(name = "user_id")
-    // Stores the ID of the user (customer) who booked the appointment
-    private Long userId;
+    @Enumerated(EnumType.STRING) 
+    // Stores the enum value as a string in the database (e.g., "SCHEDULED")
+    private Status status; // Tracks the status of the appointment
 
-    @Column(name = "user_name")
-    // Stores the name of the user who booked the appointment
-    private String userName;
+    // Optional field to store the reason for cancellation (if any)
+    private String cancellationReason;
 
-    // Status and Timestamps 
-    @Column(name = "status")
-    // Stores the current status of the appointment (default is "PENDING")
-    private String status = "PENDING";
+    // Enum representing the possible states of an appointment
+    public enum Status {
+        SCHEDULED,           // Appointment is created and scheduled
+        CANCELLED_BY_USER,   // Appointment was canceled by the user
+        CANCELLED_BY_AGENT,  // Appointment was canceled by the agent
+        COMPLETED            // Appointment has been completed successfully
+    }
 
-    @Column(name = "created_at")
-    // Stores the timestamp when the appointment record was created (set to current time by default)
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    // Getters and Setters 
-    // These are public methods that allow reading and updating private fields (Encapsulation principle)
+    // ===========================
+    // Getters and Setters
+    // ===========================
 
     public Long getId() { 
         return id; 
@@ -64,67 +55,51 @@ public class Appointment {
         this.id = id; 
     }
 
-    public Long getAgentId() { 
-        return agentId; 
+    public String getServiceType() { 
+        return serviceType; 
     }
 
-    public void setAgentId(Long agentId) { 
-        this.agentId = agentId; 
+    public void setServiceType(String serviceType) { 
+        this.serviceType = serviceType; 
     }
 
-    public String getAgentName() { 
-        return agentName; 
+    public String getUserEmail() { 
+        return userEmail; 
     }
 
-    public void setAgentName(String agentName) { 
-        this.agentName = agentName; 
+    public void setUserEmail(String userEmail) { 
+        this.userEmail = userEmail; 
     }
 
-    public LocalDateTime getPreferredDateTime() { 
-        return preferredDateTime; 
+    public String getAgentEmail() { 
+        return agentEmail; 
     }
 
-    public void setPreferredDateTime(LocalDateTime preferredDateTime) { 
-        this.preferredDateTime = preferredDateTime; 
+    public void setAgentEmail(String agentEmail) { 
+        this.agentEmail = agentEmail; 
     }
 
-    public String getReason() { 
-        return reason; 
+    public LocalDateTime getAppointmentDateTime() { 
+        return appointmentDateTime; 
     }
 
-    public void setReason(String reason) { 
-        this.reason = reason; 
+    public void setAppointmentDateTime(LocalDateTime appointmentDateTime) { 
+        this.appointmentDateTime = appointmentDateTime; 
     }
 
-    public Long getUserId() { 
-        return userId; 
-    }
-
-    public void setUserId(Long userId) { 
-        this.userId = userId; 
-    }
-
-    public String getUserName() { 
-        return userName; 
-    }
-
-    public void setUserName(String userName) { 
-        this.userName = userName; 
-    }
-
-    public String getStatus() { 
+    public Status getStatus() { 
         return status; 
     }
 
-    public void setStatus(String status) { 
+    public void setStatus(Status status) { 
         this.status = status; 
     }
 
-    public LocalDateTime getCreatedAt() { 
-        return createdAt; 
+    public String getCancellationReason() { 
+        return cancellationReason; 
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) { 
-        this.createdAt = createdAt; 
-    }
+    public void setCancellationReason(String cancellationReason) { 
+        this.cancellationReason = cancellationReason; 
+    } 
 }
