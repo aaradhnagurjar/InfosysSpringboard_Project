@@ -23,7 +23,6 @@ public class AppointmentService {
         appointment.setServiceType(request.getServiceType());
         appointment.setAppointmentDateTime(request.getPreferredDateTime());
         appointment.setStatus(Appointment.Status.SCHEDULED);
-
         Appointment saved = appointmentRepository.save(appointment);
 
         // Notify agent
@@ -72,5 +71,25 @@ public class AppointmentService {
         );
 
         return appointment;
+    }
+    // Fetch all appointments
+    public List<Appointment> getAllAppointments() {
+        return appointmentRepository.findAll();
+    }
+
+    public Appointment getAppointmentById(Long id) {
+        return appointmentRepository.findById(id).orElseThrow();
+    }
+
+    public List<Appointment> getAppointmentsByUserEmail(String email) {
+        return appointmentRepository.findByUserEmail(email);
+    }
+
+    public List<Appointment> getAppointmentsByAgentEmail(String email) {
+        return appointmentRepository.findByAgentEmail(email);
+    }
+
+    public void deleteAppointment(Long id) {
+        appointmentRepository.deleteById(id);
     }
 }
