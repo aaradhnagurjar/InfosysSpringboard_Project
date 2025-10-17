@@ -9,9 +9,9 @@ import java.util.List;
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
-    // find appointments by user ID
-    List<Appointment> findByUserId(Long userId);
+    // find appointments by user email
+    List<Appointment> findByUserEmail(String userEmail);
 
-    // find appointments by agent ID
-    List<Appointment> findByAgentId(Long agentId);
+    // find appointments by agent email
+    List<Appointment> findByAgentEmail(String agentEmail);
 }
