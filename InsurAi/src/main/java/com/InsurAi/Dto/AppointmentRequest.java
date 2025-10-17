@@ -8,23 +8,16 @@ import java.time.LocalDateTime;
 public class AppointmentRequest {
 
    
-    // ID of the agent who will handle the appointment
     private Long agentId;
-
-    // Name of the agent
     private String agentName;
-
-    // Preferred date and time chosen by the user for the appointment
-    private LocalDateTime preferredDateTime;
-
-    // Reason for the appointment (optional, can help notifications)
-    private String reason;
-
-    // ID of the user booking the appointment
+    private String agentEmail; // Added for notification
     private Long userId;
-
-    // Name of the user
     private String userName;
+    private String userEmail; // Added for notification
+    private LocalDateTime preferredDateTime;
+    private String reason;
+    private String serviceType; // Added: Health, Auto, Travel, etc.
+
 
     // Getters and Setters
     public Long getAgentId() { 
@@ -43,6 +36,13 @@ public class AppointmentRequest {
         this.agentName = agentName; 
     }
 
+   public String getAgentEmail() {
+      return agentEmail; 
+   }
+    public void setAgentEmail(String agentEmail) { 
+       this.agentEmail = agentEmail;
+    }
+   
     public LocalDateTime getPreferredDateTime() { 
         return preferredDateTime; 
     }
@@ -74,4 +74,11 @@ public class AppointmentRequest {
     public void setUserName(String userName) { 
         this.userName = userName; 
     }  
+
+    public String getServiceType() { 
+       return serviceType;
+    }
+    public void setServiceType(String serviceType) { 
+       this.serviceType = serviceType; 
+    }
 }
