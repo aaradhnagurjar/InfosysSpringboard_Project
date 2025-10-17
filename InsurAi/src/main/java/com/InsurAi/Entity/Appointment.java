@@ -1,7 +1,6 @@
+package com.insurAi.entity;
 // This class defines the Appointment entity which represents an appointment record in the database.
 // It maps Java object fields to database table columns using JPA (Jakarta Persistence API) annotations.
-
-package com.insurAi.entity;
 
 // Import JPA annotations and LocalDateTime class
 import jakarta.persistence.*;
@@ -18,15 +17,11 @@ public class Appointment {
 
     
     private String serviceType; // Type of service booked (e.g., "Health Insurance", "Auto Insurance")
-
     private String userEmail;// Email of the user
-
     private String agentEmail;// Email of the agent
-
     private LocalDateTime appointmentDateTime; // Scheduled date & time
     
-    
-    private LocalDateTime appointmentDateTime;// Date and time of the scheduled appointment
+
 
     @Enumerated(EnumType.STRING)  // Stores the enum value as a string in the database (e.g., "SCHEDULED")
     private Status status; // Tracks the  appointment status
@@ -43,7 +38,6 @@ public class Appointment {
 
     // Getters and Setters
  
-
     public Long getId() { 
         return id; 
     }
