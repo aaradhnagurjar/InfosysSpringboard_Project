@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 public class AppointmentRequest {
 
    
-    private Long agentId;
+    private Long agentId;  // ID of the agent who will handle the appointment
     private String agentName;
     private String agentEmail; // Added for notification
     private Long userId;
